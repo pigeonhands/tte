@@ -31,7 +31,7 @@ Total Days        : 0.0000349705300925926709265800
 Total Hours       : 0.0008392927222222222893656400
 Total Minutes     : 0.0503575633333333334340484600
 Total Seconds     : 3.021453800
-Total Milliseconds: 3021453.800
+Total Milliseconds: 3021.453800
 ```
 
 
