@@ -1,3 +1,13 @@
+# Time to execute
+
+```
+cargo install tte
+```
+
+[![](https://img.shields.io/crates/v/tte?style=for-the-badge)](https://crates.io/crates/hyper)
+
+
+----
 ## Basic usage
 `tte.exe ping -s 1 8.8.8.8`
 ```
