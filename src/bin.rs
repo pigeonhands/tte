@@ -7,17 +7,34 @@ use std::process::{Command, Stdio};
 fn main() {
     let args: Vec<String> = env::args().skip(1).collect();
 
-    let program_start_arg = args.iter().position(|x| !x.starts_with("-")).unwrap_or(1);
-    let remaning_args = &args[program_start_arg..];
+    if args.len() < 1 {
+        println!("tte [FLAGS] <TARGET>.");
+        println!("  -o --std-out    Show targets STDOUT");
+        println!("  -e --extended   Extended time output");
+        println!("  -e --minimal    Minimal time output");
+        return;
+    }
+
+    let program_start_arg = match args.iter().position(|x| !x.starts_with("-")) {
+        Some(i) => i,
+        None => {
+            println!("Please provide something to execute.");
+            return;
+        }
+    };
+    let tte_args = &args[..program_start_arg];
+
+    let remaning_args = &args[program_start_arg..];   
 
     let mut opts = Options::new();
     opts.optflag("o", "--std-out", "Print std out of process.");
     opts.optflag("e", "--extended", "Extended timing output.");
     opts.optflag("m", "--minimal",  "Only output time taken in ms");
-    let matches = match opts.parse(&args[..program_start_arg]) {
+    let matches = match opts.parse(tte_args) {
         Ok(m) => { m }
         Err(f) => { panic!(f.to_string()) }
     }; 
+
 
     let target_proc = &remaning_args[0];
     let target_args = &remaning_args[1..];
@@ -29,8 +46,18 @@ fn main() {
     }
     
     let mut profiler = Profiler::start_new();
-    command.status().expect("Failed to execute process");
+    let exec_err = command.status();
     profiler.stop();
+
+    match exec_err {
+        Err(e) => {
+            if e.kind() == std::io::ErrorKind::NotFound {
+                print!("Could not find target file.");
+                return;
+            }
+        },
+        _ => {}
+    };
 
     if matches.opt_present("o"){
         println!("");

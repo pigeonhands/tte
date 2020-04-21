@@ -49,7 +49,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "tte"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
  "rust_decimal 1.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
