@@ -65,7 +65,8 @@ impl Sub<Duration> for TimeSpan{
 
 
 impl TimeSpan {
-    const NANOS_PER_MICRO: u32 = 1_000;
+    //const NANOS_PER_MICRO: u32 = 1_000;
+    const NANOS_PER_MILLI: u128 = 1_000_000;
     const NANOS_PER_SEC: u128 = 1_000_000_000;
     const NANOS_PER_MINUTE: u128 = Self::NANOS_PER_SEC * 60;
     const NANOS_PER_HOUR: u128 = Self::NANOS_PER_MINUTE * 60;
@@ -90,7 +91,7 @@ impl TimeSpan {
     }
 
     pub fn total_ms(&self) -> Decimal {
-        Decimal::new(self.nanos as i64, 0) *  (Decimal::new(1, 0) / Decimal::new(Self::NANOS_PER_MICRO as i64, 0))
+        Decimal::new(self.nanos as i64, 0) *  (Decimal::new(1, 0) / Decimal::new(Self::NANOS_PER_MILLI as i64, 0))
     }
     pub fn total_nano(&self) -> u128 {
         self.nanos
@@ -110,7 +111,7 @@ impl TimeSpan {
     }
 
     pub fn ms(&self) -> u32 {
-        ((self.nanos / Self::NANOS_PER_MINUTE) % 1000) as u32
+        ((self.nanos / Self::NANOS_PER_MILLI) % 1000) as u32
     }
 
     pub fn nanos(&self) -> u128 {
